@@ -1,14 +1,14 @@
-package clothingstore.dao;
+package dao;
 
-import clothingstore.utils.DBContext;
+import utils.DBContext;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import clothingstore.model.CategoryDTO;
-import clothingstore.model.TypeDTO;
+import model.CategoryDTO;
+import model.TypeDTO;
 
 
 public class CategoryDAO extends DBContext {

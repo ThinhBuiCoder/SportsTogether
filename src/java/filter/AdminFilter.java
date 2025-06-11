@@ -1,10 +1,10 @@
-package clothingstore.filter;
+package filter;
 
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import clothingstore.model.UserDTO;
+import model.UserDTO;
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.FilterConfig;

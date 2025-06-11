@@ -88,7 +88,7 @@
                                                                         font-weight: 600;" onclick="updateProductCart('Update',${c.product.id},${c.product.stock})">Update</button>
                                                                 <!--<a href="CartServlet?action=Delete&product_id=${c.product.id}&curPage=cart.jsp"><i class="fa fa-trash-o"></i></a>-->
                                                                 <button style="color: #00bba6;
-                                                                         display: inline-block;
+                                                                        display: inline-block;
                                                                         border: none;
                                                                         border-radius: 4px;
                                                                         padding: 2px 11px;

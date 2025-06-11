@@ -1,16 +1,16 @@
-package clothingstore.dao;
+package dao;
 
-import clothingstore.utils.DBContext;
+import utils.DBContext;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import clothingstore.model.CartItem;
-import clothingstore.model.OrderDTO;
-import clothingstore.model.OrderItem;
-import clothingstore.model.ProductDTO;
+import model.CartItem;
+import model.OrderDTO;
+import model.OrderItem;
+import model.ProductDTO;
 
 public class OrderItemDAO extends DBContext {
 

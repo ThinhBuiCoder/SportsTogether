@@ -84,7 +84,7 @@
                                                                 <td>${o.orderDate}</td>
                                                                 <td><span class="success">${o.status == true ? "Đã giao" : "Chưa giao"}</span></td>
                                                                 <td>${o.totalPrice}</td>
-                                                                <td><a href="cart.html" class="view">view</a></td>
+                                                                <td><a href="cart.jsp" class="view">view</a></td>
                                                             </tr>
                                                         </c:forEach>
                                                     </tbody>

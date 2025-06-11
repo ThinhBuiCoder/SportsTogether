@@ -1,11 +1,11 @@
-package clothingstore.controller.web.login;
+package controller.web.login;
 
-import clothingstore.model.UserGoogleDTO;
-import clothingstore.model.Constants;
+import model.UserGoogleDTO;
+import model.Constants;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import clothingstore.dao.UserDAO;
-import clothingstore.model.UserDTO;
+import dao.UserDAO;
+import model.UserDTO;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;

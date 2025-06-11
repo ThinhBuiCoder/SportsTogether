@@ -1,9 +1,9 @@
-package clothingstore.controller.admin.management.supplier;
+package controller.admin.management.supplier;
 
-import clothingstore.dao.SupplierDAO;
+import dao.SupplierDAO;
 import java.io.IOException;
 import java.util.List;
-import clothingstore.model.SupplierDTO;
+import model.SupplierDTO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;

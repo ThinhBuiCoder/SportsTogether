@@ -1,11 +1,11 @@
-package clothingstore.controller.web.login;
+package controller.web.login;
 
-import clothingstore.dao.UserDAO;
+import dao.UserDAO;
 import java.io.IOException;
 import java.util.Random;
 
-import clothingstore.model.Email;
-import clothingstore.model.UserDTO;
+import model.Email;
+import model.UserDTO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;

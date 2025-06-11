@@ -1,6 +1,6 @@
-package clothingstore.model;
+package model;
 
-import clothingstore.model.ProductDTO;
+import model.ProductDTO;
 
 
 public class CartItem {

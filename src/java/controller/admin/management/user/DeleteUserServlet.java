@@ -1,6 +1,6 @@
-package clothingstore.controller.admin.management.user;
+package controller.admin.management.user;
 
-import clothingstore.dao.UserDAO;
+import dao.UserDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;

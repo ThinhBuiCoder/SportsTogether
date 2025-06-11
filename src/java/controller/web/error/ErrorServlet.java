@@ -1,4 +1,4 @@
-package clothingstore.controller.web.error;
+package controller.web.error;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;

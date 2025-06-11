@@ -1,14 +1,14 @@
-package clothingstore.controller.admin.management.product;
+package controller.admin.management.product;
 
-import clothingstore.dao.CategoryDAO;
-import clothingstore.dao.ProductDAO;
-import clothingstore.dao.SupplierDAO;
-import clothingstore.dao.TypeDAO;
+import dao.CategoryDAO;
+import dao.ProductDAO;
+import dao.SupplierDAO;
+import dao.TypeDAO;
 import java.io.IOException;
 import java.util.List;
-import clothingstore.model.CategoryDTO;
-import clothingstore.model.SupplierDTO;
-import clothingstore.model.TypeDTO;
+import model.CategoryDTO;
+import model.SupplierDTO;
+import model.TypeDTO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -27,15 +27,6 @@ public class InsertProductServlet extends HttpServlet {
 
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

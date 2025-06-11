@@ -94,7 +94,7 @@
 
                                             <div class="content_price mb-15">
                                                 <span>${PRODUCT.getSalePrice()}&#273;</span>
-                                                <span class="old-price">$${PRODUCT.price}&#273;</span>
+                                                <span class="old-price">${PRODUCT.price}&#273;</span>
                                                 <h6 id="error-stock" style="color: red"></h6>
                                             </div>
                                             <div class="box_quantity mb-20">

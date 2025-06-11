@@ -1,8 +1,8 @@
-package clothingstore.controller.web.email;
+package controller.web.email;
 
 import java.io.IOException;
 
-import clothingstore.model.Email;
+import model.Email;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;

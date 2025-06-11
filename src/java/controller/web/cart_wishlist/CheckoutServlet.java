@@ -1,19 +1,19 @@
-package clothingstore.controller.web.cart_wishlist;
+package controller.web.cart_wishlist;
 
-import clothingstore.utils.CartUtil;
-import clothingstore.dao.OrderDAO;
-import clothingstore.dao.OrderItemDAO;
-import clothingstore.dao.PaymentDAO;
-import clothingstore.dao.ProductDAO;
+import utils.CartUtil;
+import dao.OrderDAO;
+import dao.OrderItemDAO;
+import dao.PaymentDAO;
+import dao.ProductDAO;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import clothingstore.model.CartItem;
-import clothingstore.model.Email;
-import clothingstore.model.OrderDTO;
-import clothingstore.model.PaymentDTO;
-import clothingstore.model.UserDTO;
+import model.CartItem;
+import model.Email;
+import model.OrderDTO;
+import model.PaymentDTO;
+import model.UserDTO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.Cookie;
@@ -22,11 +22,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-
 @WebServlet(name = "CheckoutServlet", urlPatterns = {"/CheckoutServlet"})
 public class CheckoutServlet extends HttpServlet {
 
     private static final String CHECKOUT_PAGE = "view/jsp/home/checkout.jsp";
+    private static final String SUCCESS_PAGE = "view/jsp/home/order_success.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -44,56 +44,90 @@ public class CheckoutServlet extends HttpServlet {
         String check = "false";
         String emptyCart = "[]";
         Email emailHandle = new Email();
+
         try {
             HttpSession session = request.getSession();
             Cookie cookie = null;
             List<PaymentDTO> pms = pmDAO.getPaymentData();
+
             // Check out
             String paymentId = request.getParameter("check_method");
             UserDTO user = (UserDTO) session.getAttribute("account");
             List<CartItem> carts = (List<CartItem>) session.getAttribute("CART");
-            if (user != null && user.getRoleID() != 1 && paymentId != null) {
-                PaymentDTO payment = pmDAO.getPaymentById(Integer.parseInt(paymentId));
-                for (CartItem cart : carts) {
-                    // Check quanity of product in stock
-                    if(pDAO.getStock(cart.getProduct().getId()) > 5 && cart.getQuantity() < cart.getProduct().getStock()) {
-                        total += (cart.getQuantity() * cart.getProduct().getSalePrice());
-                        totalQuantity += cart.getQuantity();
-                    }
-                }
-                LocalDateTime daynow = LocalDateTime.now();
-                DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-                String date = daynow.format(format);
 
-                // Create new order 
-                if (oDAO.CreateNewOrder(date, total, payment, user)) {
-                    message = "Order Success";
-                    // create orderdetails
-                    orderLatest = oDAO.getTheLatestOrder();
-                    // Send email to user
-                    String subEmail = emailHandle.subjectNewOrder();
-                    String messageEmail = emailHandle.messageNewOrder(user.getFirstName(), totalQuantity, orderLatest.getTotalPrice());
-                    emailHandle.sendEmail(subEmail, messageEmail, user.getEmail());
-                    for (CartItem cart : carts) {
-                        oiDAO.createNewOrderDetail(cart, orderLatest);
-                        // Update product quantity
-                        pDAO.updateQuanityProduct(cart);
-                    }
-                    carts = null;
-                    cookie = cUtil.getCookieByName(request, "Cart");
-                    cUtil.saveCartToCookie(request, response, emptyCart);
+            if (carts == null || carts.isEmpty()) {
+                message = "Your cart is empty.";
+                request.setAttribute("MESSAGE", message);
+                request.setAttribute("CHECK", check);
+                request.setAttribute("PAYMENTS", pms);
+                return;
+            }
 
-                    session.setAttribute("CART", carts);
-                    check = "true";
-
-                } else {
-                    message = "Order failed";
-                }
+            if (user == null) {
+                message = "You need to log in to your account to checkout";
+            } else if (user.getRoleID() == 1) {
+                message = "Admin cannot perform this task";
+            } else if (paymentId == null) {
+                message = "Please select a payment method";
             } else {
-                if (user == null) {
-                    message = "You need to log in to your account to checkout";
-                } else if (user.getRoleID() == 1) {
-                    message = "Admin cannot perform this task";
+                PaymentDTO payment = pmDAO.getPaymentById(Integer.parseInt(paymentId));
+
+                // Kiểm tra stock của từng sản phẩm
+                boolean stockValid = true;
+                for (CartItem cart : carts) {
+                    int stock = pDAO.getStock(cart.getProduct().getId());
+                    if (cart.getQuantity() > stock) {
+                        stockValid = false;
+                        message = "Product " + cart.getProduct().getName() + " is out of stock. Available: " + stock;
+                        break;
+                    }
+                    total += (cart.getQuantity() * cart.getProduct().getSalePrice());
+                    totalQuantity += cart.getQuantity();
+                }
+
+                if (stockValid) {
+                    LocalDateTime daynow = LocalDateTime.now();
+                    DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                    String date = daynow.format(format);
+
+                    // Tạo đơn hàng mới
+                    if (oDAO.CreateNewOrder(date, total, payment, user)) {
+                        message = "Order Success";
+                        check = "true";
+                        url = SUCCESS_PAGE; // Chuyển đến trang xác nhận
+
+                        // Tạo chi tiết đơn hàng
+                        orderLatest = oDAO.getTheLatestOrder();
+                        for (CartItem cart : carts) {
+                            oiDAO.createNewOrderDetail(cart, orderLatest);
+                            // Cập nhật số lượng sản phẩm
+                            pDAO.updateQuanityProduct(cart);
+                        }
+
+                        // Gửi email thông báo
+                        try {
+                            if (user.getEmail() == null || user.getEmail().trim().isEmpty()) {
+                                log("CheckoutServlet: Cannot send email - User email is null or empty for user: " + user.getId());
+                                message += " (Note: We couldn't send the confirmation email due to missing email address.)";
+                            } else {
+                                String subEmail = emailHandle.subjectNewOrder();
+                                String messageEmail = emailHandle.messageNewOrder(user.getFirstName(), totalQuantity, orderLatest.getTotalPrice());
+                                emailHandle.sendEmail(subEmail, messageEmail, user.getEmail());
+                                log("CheckoutServlet: Confirmation email sent to: " + user.getEmail());
+                            }
+                        } catch (Exception ex) {
+                            log("CheckoutServlet: Failed to send confirmation email to " + user.getEmail() + ": " + ex.getMessage());
+                            message += " (Note: We couldn't send the confirmation email, but your order was placed successfully.)";
+                        }
+
+                        // Xóa giỏ hàng
+                        carts = null;
+                        cookie = cUtil.getCookieByName(request, "Cart");
+                        cUtil.saveCartToCookie(request, response, emptyCart);
+                        session.setAttribute("CART", carts);
+                    } else {
+                        message = "Order failed";
+                    }
                 }
             }
 
@@ -102,6 +136,8 @@ public class CheckoutServlet extends HttpServlet {
             request.setAttribute("CHECK", check);
         } catch (Exception e) {
             log("CheckoutServlet Error:" + e.getMessage());
+            request.setAttribute("MESSAGE", "An error occurred during checkout: " + e.getMessage());
+            request.setAttribute("CHECK", "false");
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }

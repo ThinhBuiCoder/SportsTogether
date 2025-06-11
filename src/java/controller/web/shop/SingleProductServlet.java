@@ -1,10 +1,10 @@
-package clothingstore.controller.web.shop;
+package controller.web.shop;
 
-import clothingstore.dao.ProductDAO;
+import dao.ProductDAO;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import clothingstore.model.ProductDTO;
+import model.ProductDTO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;

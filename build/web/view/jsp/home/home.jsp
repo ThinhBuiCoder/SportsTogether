@@ -1,3 +1,4 @@
+<!-- File: home.jsp -->
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="../../common/taglib.jsp"%>
 <!DOCTYPE html>
@@ -30,8 +31,122 @@
                     error: function (xhr) {
                     }
                 });
-            }</script>
-
+            }
+        </script>
+        <!-- Thêm CSS cho chatbot -->
+        <style>
+            .chat-wrapper {
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                z-index: 1000;
+            }
+            .chat-container {
+                background-color: white;
+                border-radius: 10px;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                overflow: hidden;
+                transition: all 0.3s ease;
+                display: flex;
+                flex-direction: column;
+            }
+            .chat-container.minimized {
+                width: 60px;
+                height: 60px;
+                border-radius: 50%;
+            }
+            .chat-container.maximized {
+                width: 400px;
+                height: 80vh;
+                max-height: 600px;
+            }
+            .chat-header {
+                background-color: #4285F4;
+                color: white;
+                padding: 15px;
+                text-align: center;
+                font-weight: bold;
+                cursor: pointer;
+                position: relative;
+            }
+            .chat-messages {
+                flex: 1;
+                overflow-y: auto;
+                padding: 15px;
+                display: none;
+            }
+            .chat-container.maximized .chat-messages {
+                display: block;
+            }
+            .message {
+                padding: 10px 15px;
+                border-radius: 18px;
+                margin-bottom: 10px;
+                max-width: 70%;
+                word-wrap: break-word;
+            }
+            .user-message {
+                background-color: #E3F2FD;
+                margin-left: auto;
+                border-bottom-right-radius: 5px;
+            }
+            .ai-message {
+                background-color: #F5F5F5;
+                margin-right: auto;
+                border-bottom-left-radius: 5px;
+            }
+            .chat-input {
+                display: none; /* Ẩn mặc định */
+                padding: 15px;
+                background-color: #f5f5f5;
+            }
+            .chat-container.maximized .chat-input {
+                display: flex; /* Hiển thị khi phóng to */
+            }
+            .chat-input form {
+                display: flex;
+                width: 100%;
+            }
+            .chat-input input {
+                flex: 1;
+                padding: 10px 15px;
+                border: 1px solid #ddd;
+                border-radius: 20px;
+                outline: none;
+            }
+            .chat-input button {
+                background-color: #4285F4;
+                color: white;
+                border: none;
+                border-radius: 20px;
+                padding: 10px 20px;
+                margin-left: 10px;
+                cursor: pointer;
+                font-weight: bold;
+            }
+            .timestamp {
+                font-size: 0.7em;
+                color: #888;
+                margin-top: 5px;
+            }
+            .message-content {
+                white-space: pre-wrap;
+            }
+            .chat-icon {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 100%;
+                font-size: 24px;
+            }
+            .chat-container.minimized .chat-header {
+                padding: 0;
+                height: 100%;
+            }
+            .chat-container.minimized .chat-header span {
+                display: none;
+            }
+        </style>
     </head>
     <body>
         <!-- Add your site or application content here -->
@@ -98,9 +213,6 @@
                                                         <a href="SingleProductServlet?product_id=${p.id}">${p.name}</a>
                                                         <span class="cart_price">$${p.salePrice}</span>
                                                     </div>
-                                                    <!--                                                    <div class="cart_remove">
-                                                                                                            <a title="Remove this item" href="#"><i class="fa fa-times-circle"></i></a>
-                                                                                                        </div>-->
                                                 </div>
                                             </c:if>
                                         </c:forEach>
@@ -197,37 +309,21 @@
                                                                     <span class="discount">Up to ${p.discount * 100}%</span>
                                                                 </c:if>
                                                                 <div class="product_action">
-                                                                    <!--<a href="CartServlet?action=Add&product_id=${p.id}&quantity=1"> <i class="fa fa-shopping-cart"></i> Thêm vào giỏ</a>-->
-                                                                    <button style="display: block;
-                                                                            border: none;
-                                                                            width: 100%;
-                                                                            background: #018576;
-                                                                            color: #fff;
-                                                                            padding: 7px 0;
-                                                                            text-transform: capitalize;
-                                                                            font-size: 13px;" onclick="addProductToCart('Add',${p.id}, 1)"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ</button>
-
+                                                                    <button style="display: block; border: none; width: 100%; background: #018576; color: #fff; padding: 7px 0; text-transform: capitalize; font-size: 13px;" onclick="addProductToCart('Add',${p.id}, 1)"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ</button>
                                                                 </div>
                                                             </div>
                                                             <div class="product_content">
                                                                 <div style="display: flex; justify-content: center">
                                                                     <c:if test="${p.price != p.salePrice}">
-                                                                        <span style="margin-right: 10px; font-weight: 400;" class="old_price" id="oldprice">Rs. ${p.price}&#273;</span>
+                                                                        <span style="margin-right: 10px; font-weight: 400;" class="old_price" id="oldprice">VNĐ: ${p.price}đ</span>
                                                                     </c:if>
-                                                                    <span class="current_price">VNĐ: ${p.salePrice}&#273;
-                                                                    </span>
+                                                                    <span class="current_price">VNĐ: ${p.salePrice}đ</span>
                                                                 </div>
                                                                 <h3 class="product_title"><a href="SingleProductServlet?product_id=${p.id}">${p.name}</a></h3>
                                                             </div>
                                                             <div class="product_info">
                                                                 <ul>
-                                                                    <!--<li><a href="WishlistServlet?action=Add&product_id=${p.id}" title=" Add to Wishlist ">Yêu thích</a></li>-->
-                                                                    <li><button style="color: red;
-                                                                                border: none;
-                                                                                border-radius: 4px;
-                                                                                font-size: 13px;
-                                                                                padding: 2px 11px;
-                                                                                font-weight: 600;" onclick="addProductToWishlist('Add',${p.id})">Yêu thích</button></li>
+                                                                    <li><button style="color: red; border: none; border-radius: 4px; font-size: 13px; padding: 2px 11px; font-weight: 600;" onclick="addProductToWishlist('Add',${p.id})">Yêu thích</button></li>
                                                                     <li><a href="SingleProductServlet?product_id=${p.id}" title="View Detail">Xem sản phẩm</a></li>
                                                                 </ul>
                                                             </div>
@@ -256,36 +352,21 @@
                                                                 <img src="view\assets\home\img\cart\span-hot.png" alt="">
                                                             </div>
                                                             <div class="product_action">
-                                                                <button style="display: block;
-                                                                        border: none;
-                                                                        width: 100%;
-                                                                        background: #018576;
-                                                                        color: #fff;
-                                                                        padding: 7px 0;
-                                                                        text-transform: capitalize;
-                                                                        font-size: 13px;" onclick="addProductToCart('Add',${p.id}, 1)"> <i class="fa fa-shopping-cart"></i> Thêm vào giỏ</button>
-
+                                                                <button style="display: block; border: none; width: 100%; background: #018576; color: #fff; padding: 7px 0; text-transform: capitalize; font-size: 13px;" onclick="addProductToCart('Add',${p.id}, 1)"> <i class="fa fa-shopping-cart"></i> Thêm vào giỏ</button>
                                                             </div>
                                                         </div>
                                                         <div class="product_content">
                                                             <div style="display: flex; justify-content: center">
                                                                 <c:if test="${p.price != p.salePrice}">
-                                                                    <span style="margin-right: 10px; font-weight: 400;" class="old_price" id="oldprice">VNĐ: ${p.price}&#273;</span>
+                                                                    <span style="margin-right: 10px; font-weight: 400;" class="old_price" id="oldprice">VNĐ: ${p.price}đ</span>
                                                                 </c:if>
-                                                                <span class="current_price">VNĐ: ${p.salePrice}&#273;
-                                                                </span>
+                                                                <span class="current_price">VNĐ: ${p.salePrice}đ</span>
                                                             </div>
                                                             <h3 class="product_title"><a href="SingleProductServlet?product_id=${p.id}">${p.name}</a></h3>
                                                         </div>
                                                         <div class="product_info">
                                                             <ul>
-                                                                <!--<li><a href="WishlistServlet?action=Add&product_id=${p.id}" title=" Add to Wishlist ">Yêu thích</a></li>-->
-                                                                <li><button style="color: red;
-                                                                            border: none;
-                                                                            border-radius: 4px;
-                                                                            font-size: 13px;
-                                                                            padding: 2px 11px;
-                                                                            font-weight: 600;" onclick="addProductToWishlist('Add',${p.id})">Yêu thích</button></li>
+                                                                <li><button style="color: red; border: none; border-radius: 4px; font-size: 13px; padding: 2px 11px; font-weight: 600;" onclick="addProductToWishlist('Add',${p.id})">Yêu thích</button></li>
                                                                 <li><a href="SingleProductServlet?product_id=${p.id}" title="View Detail">Xem sản phẩm</a></li>
                                                             </ul>
                                                         </div>
@@ -351,8 +432,119 @@
         <!--footer area start-->
         <%@include file="../../common/web/footer.jsp"%>
         <!--footer area end-->
+
+        <!-- Chatbot thêm vào đây -->
+        <div class="chat-wrapper">
+            <div class="chat-container minimized" id="chat-container">
+                <div class="chat-header" onclick="toggleChat()">
+                    <span>Sport Together</span>
+                    <div class="chat-icon">💬</div>
+                </div>
+                <div class="chat-messages" id="chat-messages">
+                    <c:if test="${empty chatHistory}">
+                        <div class="message ai-message">
+                            <div class="message-content">SportTogether chúng tôi rất hân hạnh được phục vụ bạn</div>
+                        </div>
+                    </c:if>
+                    <c:forEach items="${chatHistory}" var="message">
+                        <div class="message ${message.sender}-message">
+                            <div class="message-content">${message.message}</div>
+                            <div class="timestamp">${message.timestamp}</div>
+                        </div>
+                    </c:forEach>
+                </div>
+                <div class="chat-input">
+                    <form id="chat-form" action="${pageContext.request.contextPath}/chat" method="post">
+                        <input type="text" name="message" id="message-input" placeholder="Type your message here..." autocomplete="off" required>
+                        <button type="submit">Send</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
         <!-- all js here -->
         <%@include file="../../common/web/add_js.jsp"%>
+
+        <!-- Script cho chatbot -->
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const chatMessages = document.getElementById('chat-messages');
+                const chatForm = document.getElementById('chat-form');
+                const messageInput = document.getElementById('message-input');
+                
+                chatForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const message = messageInput.value.trim();
+                    if (!message) return;
+                    
+                    addMessage(message, 'user');
+                    messageInput.value = '';
+                    
+                    fetch('${pageContext.request.contextPath}/chat', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                            'X-Requested-With': 'XMLHttpRequest'
+                        },
+                        body: 'message=' + encodeURIComponent(message)
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        addMessage(data.message, 'ai');
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        addMessage('Sorry, something went wrong. Please try again.', 'ai');
+                    });
+                });
+                
+                function addMessage(content, sender) {
+                    const messageDiv = document.createElement('div');
+                    messageDiv.className = `message ${sender}-message`;
+                    
+                    const contentDiv = document.createElement('div');
+                    contentDiv.className = 'message-content';
+                    contentDiv.textContent = content;
+                    
+                    const timestampDiv = document.createElement('div');
+                    timestampDiv.className = 'timestamp';
+                    const now = new Date();
+                    timestampDiv.textContent = now.toLocaleTimeString();
+                    
+                    messageDiv.appendChild(contentDiv);
+                    messageDiv.appendChild(timestampDiv);
+                    
+                    chatMessages.appendChild(messageDiv);
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }
+
+                // Đảm bảo hiển thị chat-input khi phóng to
+                const chatContainer = document.getElementById('chat-container');
+                const chatInput = document.querySelector('.chat-input');
+                if (chatContainer.classList.contains('maximized')) {
+                    chatInput.style.display = 'flex';
+                }
+            });
+
+            function toggleChat() {
+                const chatContainer = document.getElementById('chat-container');
+                const chatMessages = document.getElementById('chat-messages');
+                const chatInput = document.querySelector('.chat-input');
+                
+                if (chatContainer.classList.contains('minimized')) {
+                    chatContainer.classList.remove('minimized');
+                    chatContainer.classList.add('maximized');
+                    chatMessages.style.display = 'block';
+                    chatInput.style.display = 'flex'; // Hiển thị phần nhập tin nhắn
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                } else {
+                    chatContainer.classList.remove('maximized');
+                    chatContainer.classList.add('minimized');
+                    chatMessages.style.display = 'none';
+                    chatInput.style.display = 'none'; // Ẩn phần nhập tin nhắn
+                }
+            }
+        </script>
     </body>
 </html>
-

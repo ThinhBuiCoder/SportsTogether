@@ -1,11 +1,11 @@
-package clothingstore.controller.admin.management.category;
+package controller.admin.management.category;
 
-import clothingstore.dao.CategoryDAO;
-import clothingstore.dao.TypeDAO;
+import dao.CategoryDAO;
+import dao.TypeDAO;
 import java.io.IOException;
 import java.util.List;
-import clothingstore.model.CategoryDTO;
-import clothingstore.model.TypeDTO;
+import model.CategoryDTO;
+import model.TypeDTO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;

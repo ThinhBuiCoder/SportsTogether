@@ -1,4 +1,4 @@
-package clothingstore.model;
+package model;
 
 
 public class WalletDTO {

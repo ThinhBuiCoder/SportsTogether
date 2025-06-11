@@ -1,6 +1,6 @@
-package clothingstore.controller.admin.management.product;
+package controller.admin.management.product;
 
-import clothingstore.dao.ProductDAO;
+import dao.ProductDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;

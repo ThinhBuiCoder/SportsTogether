@@ -1,6 +1,6 @@
-package clothingstore.dao;
+package dao;
 
-import clothingstore.utils.DBContext;
+import utils.DBContext;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -8,9 +8,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import clothingstore.model.OrderDTO;
-import clothingstore.model.PaymentDTO;
-import clothingstore.model.UserDTO;
+import model.OrderDTO;
+import model.PaymentDTO;
+import model.UserDTO;
 
 
 public class OrderDAO extends DBContext {

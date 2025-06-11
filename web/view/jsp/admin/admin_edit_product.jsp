@@ -69,7 +69,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label for="exampleSelect3" class="control-label">Hãng</label>
+                                    <label for="exampleSelect3" class="control-label">Môn thể thao</label>
                                     <select name="supplier_id" class="form-control" id="exampleSelect3">
                                         <c:forEach items="${requestScope.LIST_SUPPLIERS}" var="sup">
                                             <option ${sup.id == psupplier.id ? "selected" : ""} value="${sup.id}">${sup.name}</option>

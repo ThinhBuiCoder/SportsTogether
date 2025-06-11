@@ -1,8 +1,8 @@
-package clothingstore.controller.web.profile;
+package controller.web.profile;
 
-import clothingstore.dao.UserDAO;
+import dao.UserDAO;
 import java.io.IOException;
-import clothingstore.model.UserDTO;
+import model.UserDTO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;

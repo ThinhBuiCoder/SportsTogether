@@ -6,5 +6,6 @@
 <script src="view\assets\home\js\plugins.js"></script>
 <script src="view\assets\home\js\main.js"></script>
 <script src="view\assets\home\js\events.js"></script>
+<script src="view\assets\home\js\ajax.js"></script>
 
 

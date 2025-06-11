@@ -1,10 +1,10 @@
-package clothingstore.utils;
+package utils;
 
-import clothingstore.dao.ProductDAO;
+import dao.ProductDAO;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import clothingstore.model.ProductDTO;
+import model.ProductDTO;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

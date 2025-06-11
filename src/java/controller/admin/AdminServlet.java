@@ -1,14 +1,14 @@
-package clothingstore.controller.admin;
+package controller.admin;
 
-import clothingstore.dao.OrderDAO;
-import clothingstore.dao.OrderItemDAO;
-import clothingstore.dao.ProductDAO;
-import clothingstore.dao.UserDAO;
+import dao.OrderDAO;
+import dao.OrderItemDAO;
+import dao.ProductDAO;
+import dao.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
-import clothingstore.model.OrderDTO;
-import clothingstore.model.OrderItem;
+import model.OrderDTO;
+import model.OrderItem;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;

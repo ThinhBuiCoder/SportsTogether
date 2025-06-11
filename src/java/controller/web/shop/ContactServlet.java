@@ -1,4 +1,4 @@
-package clothingstore.controller.web.shop;
+package controller.web.shop;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;

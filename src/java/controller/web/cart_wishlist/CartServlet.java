@@ -1,14 +1,14 @@
-package clothingstore.controller.web.cart_wishlist;
+package controller.web.cart_wishlist;
 
-import clothingstore.utils.WishlistUtil;
-import clothingstore.utils.CartUtil;
-import clothingstore.dao.ProductDAO;
+import utils.WishlistUtil;
+import utils.CartUtil;
+import dao.ProductDAO;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import clothingstore.model.CartItem;
-import clothingstore.model.ProductDTO;
+import model.CartItem;
+import model.ProductDTO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
